@@ -2,6 +2,7 @@ package clinicamovil.unitec.org.clinicaadmin
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -82,6 +83,14 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, msg)
             Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
         }
+
+        val botonMapa=findViewById<Button>(R.id.irAMapa)
+        botonMapa.setOnClickListener{
+            var intent= Intent(applicationContext, MapsActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 
     companion object {
@@ -99,8 +108,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
-            var url2="http://192.168.100.7:9000/api/mensajeria"
-            //  var url2="http://192.168.1.73:9010/api/clima"
+            var url2="http://unitecmx.herokuapp.com/api/mensajeria"
+            // var url2="http://192.168.100.7:9000/api/mensajeria"
      hacerPost(url2);
             //  println("DESPUES DE REST:"+usuarios.get(0).email);
             return null

@@ -35,5 +35,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/log_token" />
+    
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/irAMapa"
+        android:text="ir a mapa"
+        android:background="@color/colorAccent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content" />
+        
 
 </LinearLayout>
