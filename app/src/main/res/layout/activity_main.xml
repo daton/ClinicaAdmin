@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="12dp"
     android:orientation="vertical"
 
     tools:context="clinicamovil.unitec.org.clinicaadmin.MainActivity">
@@ -16,6 +17,7 @@
     <TextView
         android:id="@+id/informationTextView"
         android:layout_width="wrap_content"
+        android:textColor="@color/blanco"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
@@ -24,7 +26,10 @@
     <Button
         android:id="@+id/subscribeButton"
         android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/blanco "
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:text="@string/subscribe_to_news" />
@@ -32,6 +37,8 @@
     <Button
         android:id="@+id/logTokenButton"
         android:layout_width="match_parent"
+        android:background="@color/colorAccent"
+
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/log_token" />
@@ -39,10 +46,18 @@
     <Button
         android:layout_width="match_parent"
         android:id="@+id/irAMapa"
-        android:text="ir a mapa"
+        android:text="ir al Mapa"
         android:background="@color/colorAccent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="match_parent"
+        android:text="Ingresar"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/blanco"
+        android:id="@+id/ingresar"
         android:layout_height="wrap_content" />
         
 
