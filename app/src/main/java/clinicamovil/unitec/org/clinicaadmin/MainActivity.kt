@@ -90,6 +90,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Navegacion del incidencias
+        val botonIncidencias=findViewById<Button>(R.id.ingresar)
+        botonIncidencias.setOnClickListener{
+            var intent2=Intent(applicationContext,IncidenciasActivity::class.java)
+            startActivity(intent2)
+        }
+
 
     }
 

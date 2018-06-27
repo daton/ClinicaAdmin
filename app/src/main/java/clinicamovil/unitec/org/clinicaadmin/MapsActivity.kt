@@ -62,17 +62,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
 
         mMap.setMinZoomPreference(10.0f);
-        mMap.setMaxZoomPreference(14.0f);
+      //  mMap.setMaxZoomPreference(14.0f);
 
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(41.5043824,-87.2475618)
+        val hobartPapitos = LatLng(41.5043824,-87.2475618)
        mMap.moveCamera((CameraUpdateFactory.zoomBy(13f)))
       //  mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-       mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+       mMap.moveCamera(CameraUpdateFactory.newLatLng(hobartPapitos))
 
     }
 
