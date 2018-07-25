@@ -57,19 +57,21 @@
         <Button
             android:layout_width="match_parent"
             android:textColor="@color/blanco"
-
+            android:id="@+id/botonIngresar"
             android:text="ingresar"
             android:layout_marginHorizontal="15dp"
             android:background="@color/colorPrimaryDark"
             android:layout_height="wrap_content" />
+
     <Button
+        android:id="@+id/botonRegistrarse"
         android:layout_width="match_parent"
-        android:textColor="@color/blanco"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-   android:layout_marginTop="25dp"
-        android:text="Registrarse"
+        android:layout_marginTop="25dp"
         android:background="@color/colorAccent"
-        android:layout_height="wrap_content" />
+        android:text="Registrarse"
+        android:textColor="@color/blanco" />
 
 </LinearLayout>
 

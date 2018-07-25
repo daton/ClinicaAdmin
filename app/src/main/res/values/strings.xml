@@ -4,11 +4,11 @@
     <string name="quickstart_message">Click the SUBSCRIBE TO NEWS button below to subscribe to the
         news topic. Messages sent to the news topic will be received. The LOG TOKEN button logs the
         InstanceID token to logcat.</string>
-    <string name="subscribe_to_news">Subscribe To News</string>
-    <string name="log_token">Log Token</string>
+    <string name="subscribe_to_news">Subscribirse a alertas</string>
+    <string name="log_token">Obtener token</string>
 
-    <string name="msg_subscribed">Subscribed to news topic</string>
-    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="msg_subscribed">Subscribirse a alertas</string>
+    <string name="msg_token_fmt" translatable="false">ID del Token: %s</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!--
