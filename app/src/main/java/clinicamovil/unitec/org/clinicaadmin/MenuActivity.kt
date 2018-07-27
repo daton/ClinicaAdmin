@@ -1,5 +1,6 @@
 package clinicamovil.unitec.org.clinicaadmin
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.Snackbar
@@ -11,11 +12,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.client.RestTemplate
 
 
 class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    var estatus = Estatus()
+    var mensaje=Academico()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,4 +145,43 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         principal.visibility = View.INVISIBLE
         incidencias.visibility = View.INVISIBLE
     }
+
+    inner class TareaMensaje : AsyncTask<Void, Void, Void>() {
+
+        override fun doInBackground(vararg p0: Void?): Void? {
+
+
+
+
+            var url2="https://jc-elementos.herokuapp.com/api/mensaje"
+
+            val restTemplate = RestTemplate()
+            restTemplate.messageConverters.add(MappingJackson2HttpMessageConverter())
+
+
+            val maper = ObjectMapper()
+            //  usuarios = maper.readValue(estring, object : TypeReference<ArrayList<Usuario>>() {})
+
+            val respuesta = restTemplate.postForObject(url2, mensaje, String::class.java)
+            estatus = maper.readValue(respuesta,Estatus::class.java )
+            print(estatus.mensaje)
+
+            println("DESPUES DE REST");
+            return null
+        }
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+            //Se piden las componentes
+           // var eCuerpo=     findViewById<EditText>(R.id.textoCuerpo)
+          //  mensaje.cuerpo=    eCuerpo.text.toString();
+        }
+
+        override fun onPostExecute(result: Void?) {
+            super.onPostExecute(result)
+            Toast.makeText(applicationContext,estatus.mensaje, Toast.LENGTH_LONG).show();
+          //  findViewById<EditText>(R.id.textoCuerpo).text=null
+        }
+    }
 }
+
