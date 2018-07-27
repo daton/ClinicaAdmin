@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <string-array name="planets_array">
+            <item>Sin Gasas</item>
+            <item>Sin Catéters</item>
+            <item>Alumno sin bata</item>
+            <item>Sala sucia</item>
+        </string-array>
+</resources>
