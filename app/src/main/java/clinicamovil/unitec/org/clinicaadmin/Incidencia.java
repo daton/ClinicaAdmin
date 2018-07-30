@@ -1,4 +1,5 @@
 package clinicamovil.unitec.org.clinicaadmin;
 
-public class Academico {
+public class Incidencia {
+    String nombre;
 }
