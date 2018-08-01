@@ -27,12 +27,12 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         setSupportActionBar(toolbar)
-
+/*
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-
+*/
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -84,7 +84,21 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                Toast.makeText(applicationContext,"Seleccionaste "+item,Toast.LENGTH_SHORT).show();
            }
 
-    }
+
+
+        /**************************************************************
+        Inicia boton registrar ingreso
+         ***************************************************************/
+          findViewById<Button>(R.id.botonIngreso).setOnClickListener {
+              Toast.makeText(applicationContext, "Procedermos al registro ", Toast.LENGTH_SHORT).show()
+          }
+
+        /**************************************************************
+        termina boton registrar ingreso
+         ***************************************************************/
+    } //Termina OnCReate
+
+
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
