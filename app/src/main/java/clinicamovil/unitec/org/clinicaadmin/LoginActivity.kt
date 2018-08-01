@@ -15,6 +15,7 @@ class LoginActivity : AppCompatActivity() {
     var academico: Academico? = null
     var estatus = Estatus()
     var nip: Int? = 0
+    var mensajeError:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +31,7 @@ class LoginActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.botonIngresar).setOnClickListener {
 
-            var progreso = findViewById<ProgressBar>(R.id.progressBar1)
-            progreso.visibility = View.VISIBLE
+
             TareaAutenticar().execute(null, null, null)
         }
     }
@@ -41,14 +41,14 @@ class LoginActivity : AppCompatActivity() {
             super.onPostExecute(result)
             nip = -1
             if (academico == null) {
-                Toast.makeText(applicationContext, "NO te autenticaste", Toast.LENGTH_LONG).show()
+
                 var txtError = findViewById<TextView>(R.id.txtErrorNip)
                 txtError.visibility = View.VISIBLE
                 txtError.text = "NIP incorrecto"
             } else {
                 var txtError = findViewById<TextView>(R.id.txtErrorNip)
                 txtError.visibility = View.INVISIBLE
-                Toast.makeText(applicationContext, "El rol es " + academico?.rol, Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "El rol es " + academico?.rol, Toast.LENGTH_SHORT).show()
 
                 var i = Intent(applicationContext, MenuActivity::class.java)
 
@@ -85,17 +85,17 @@ class LoginActivity : AppCompatActivity() {
         override fun onPreExecute() {
             super.onPreExecute()
 
-            var txtError = findViewById<TextView>(R.id.txtErrorNip)
-            txtError.visibility = View.INVISIBLE
+            var progreso = findViewById<ProgressBar>(R.id.progressBar1)
+            progreso.visibility = View.VISIBLE
 
             try {
                 nip = findViewById<EditText>(R.id.textonip).text.toString().toInt();
 
                 Toast.makeText(applicationContext, "UN numero " + nip, Toast.LENGTH_LONG).show()
             } catch (e: NumberFormatException) {
-                var txtError = findViewById<TextView>(R.id.txtErrorNip)
-                txtError.visibility = View.VISIBLE
-                txtError.text = "NIP incorrecto"
+
+                mensajeError="Introduce tu NIP"
+
             }
         }
     }
