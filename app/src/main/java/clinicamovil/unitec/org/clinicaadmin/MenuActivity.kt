@@ -1,6 +1,11 @@
 package clinicamovil.unitec.org.clinicaadmin
 
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.content.Context
+import android.location.Location
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.Snackbar
@@ -13,20 +18,38 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestTemplate
+import java.time.LocalDate
+import java.time.ZonedDateTime
+import java.util.*
 
 
 class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     var estatus = Estatus()
     var mensaje=Academico()
 
+var fecha:Calendar?=null
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+
+    @SuppressLint("MissingPermission")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         setSupportActionBar(toolbar)
+
+
+
+        //Actrivamos la Localizacion
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
 /*
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -90,7 +113,32 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Inicia boton registrar ingreso
          ***************************************************************/
           findViewById<Button>(R.id.botonIngreso).setOnClickListener {
-              Toast.makeText(applicationContext, "Procedermos al registro ", Toast.LENGTH_SHORT).show()
+
+              fusedLocationClient.lastLocation
+                      .addOnSuccessListener { location : Location? ->
+
+                          fecha= Calendar.getInstance();
+                          var dia=     fecha?.get(Calendar.DAY_OF_WEEK);
+
+
+                          //Probamos guardar en shared preferences
+                          val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return@addOnSuccessListener
+                          with (sharedPref.edit()) {
+                              putInt("dia", dia!!)
+                              commit()
+                          }
+
+
+
+                          val highScore = sharedPref.getInt("dia",0);
+
+                          Toast.makeText(applicationContext,"Loca "+location?.latitude+" Longi"+location?.longitude+" alti "+location?.altitude+ " Dia es "+dia
+                                 + "Con guardardo"+highScore,Toast.LENGTH_LONG).show()
+
+
+
+                      }
+
           }
 
         /**************************************************************

@@ -18,9 +18,8 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import android.support.annotation.NonNull
 import android.widget.Toast
-
-
-
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -33,6 +32,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
     private lateinit var mMap: GoogleMap
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
 
 
@@ -41,6 +42,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
+        //Activamos el proveedor de Servicios de Localización
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
