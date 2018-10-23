@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil
 
 class RegistroMensajeria {
     var registroId: String?=null

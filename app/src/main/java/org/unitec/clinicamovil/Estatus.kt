@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil
 
 /**
  * Created by rapid on 08/12/2017.

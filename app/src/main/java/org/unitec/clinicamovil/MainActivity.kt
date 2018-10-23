@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil;
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

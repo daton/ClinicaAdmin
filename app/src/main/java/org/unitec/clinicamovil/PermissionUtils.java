@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin;
+package org.unitec.clinicamovil;
 
 import android.Manifest;
 import android.app.AlertDialog;

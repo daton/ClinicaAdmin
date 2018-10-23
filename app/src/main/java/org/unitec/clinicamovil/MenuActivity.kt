@@ -1,14 +1,10 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
-import android.content.Context
 import android.location.Location
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -17,25 +13,40 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestTemplate
-import java.time.LocalDate
-import java.time.ZonedDateTime
 import java.util.*
 
 
 class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+
+    var academico: Academico? = null
+    var practica: Practica?=null
     var estatus = Estatus()
-    var mensaje=Academico()
+    var nip: Int? = 0
+    var mensajeError:String?=null
+
+
+//Para practica
+    var dia:Int?=null
+    var diaSemana:Int?=null
+    var diano:Int?=null;
+    var miId:Int?=null
+    var miLati:Double?=null
+    var miLongi:Double?=null
+
+    var mensaje= Academico()
 
 var fecha:Calendar?=null
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
 
 
     @SuppressLint("MissingPermission")
@@ -49,6 +60,18 @@ var fecha:Calendar?=null
 
         //Actrivamos la Localizacion
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        //La location callback
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations){
+                    // Update UI with location data
+                    // ...
+                }
+            }
+        }
+
 
 /*
         fab.setOnClickListener { view ->
@@ -109,35 +132,13 @@ var fecha:Calendar?=null
 
 
 
-        /**************************************************************
+        /***************************************************************************************************************************************
         Inicia boton registrar ingreso
-         ***************************************************************/
+
+        ************************************************************************ ***************************************************************/
           findViewById<Button>(R.id.botonIngreso).setOnClickListener {
 
-              fusedLocationClient.lastLocation
-                      .addOnSuccessListener { location : Location? ->
-
-                          fecha= Calendar.getInstance();
-                          var dia=     fecha?.get(Calendar.DAY_OF_WEEK);
-
-
-                          //Probamos guardar en shared preferences
-                          val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return@addOnSuccessListener
-                          with (sharedPref.edit()) {
-                              putInt("dia", dia!!)
-                              commit()
-                          }
-
-
-
-                          val highScore = sharedPref.getInt("dia",0);
-
-                          Toast.makeText(applicationContext,"Loca "+location?.latitude+" Longi"+location?.longitude+" alti "+location?.altitude+ " Dia es "+dia
-                                 + "Con guardardo"+highScore,Toast.LENGTH_LONG).show()
-
-
-
-                      }
+                      TareaRegistrarse().execute(null,null,null)
 
           }
 
@@ -225,7 +226,7 @@ var fecha:Calendar?=null
             //  usuarios = maper.readValue(estring, object : TypeReference<ArrayList<Usuario>>() {})
 
             val respuesta = restTemplate.postForObject(url2, mensaje, String::class.java)
-            estatus = maper.readValue(respuesta,Estatus::class.java )
+            estatus = maper.readValue(respuesta, Estatus::class.java )
             print(estatus.mensaje)
 
             println("DESPUES DE REST");
@@ -245,5 +246,129 @@ var fecha:Calendar?=null
           //  findViewById<EditText>(R.id.textoCuerpo).text=null
         }
     }
+/*****************************************************************************************************************
+                                     REGISRTO DE PRACTICA-PROFESOR
+ ***************************************************************************************************************/
+  inner class  TareaRegistrarse :AsyncTask<Void, Void, Void>(){
+
+      override fun onPreExecute() {
+          super.onPreExecute()
+
+          //Generamos o llenamos la practica
+
+          obtenerUbicacion()
+
+
+
+
+      }
+
+      override fun doInBackground(vararg params: Void?): Void? {
+          try {
+              var url2 = "https://node74674-env-8686050.whelastic.net/api/practica"
+              //  var url2="http://192.168.100.7:8080/api/practica"
+
+              val restTemplate = RestTemplate()
+              restTemplate.messageConverters.add(MappingJackson2HttpMessageConverter())
+              print("XXXXXXXXXXXXXXXXXXXXXXXX " + practica?.id);
+
+              val maper = ObjectMapper()
+              //  usuarios = maper.readValue(estring, object : TypeReference<ArrayList<Usuario>>() {})
+
+              val respuesta = restTemplate.postForObject(url2, practica, String::class.java)
+
+              estatus = maper.readValue(respuesta, Estatus::class.java)
+              // else estatus = null
+              print("El rol es" + academico?.rol)
+
+              println("DESPUES DE REST");
+          }catch(t:Throwable){
+              Toast.makeText(applicationContext,"No tienes internet", Toast.LENGTH_LONG).show();
+          }
+
+          return null
+      }
+
+      override fun onPostExecute(result: Void?) {
+          super.onPostExecute(result)
+          Toast.makeText(applicationContext, "mensaje:"+estatus.mensaje, Toast.LENGTH_LONG).show()
+      }
+  }
+
+
+    @SuppressLint("MissingPermission")
+    fun obtenerUbicacion(){
+
+
+        // Este es otro cdigo
+        val locationRequest = LocationRequest().apply {
+          interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        val builder = LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
+       fusedLocationClient.requestLocationUpdates(locationRequest,locationCallback,null);
+
+
+
+//termina e4ste es otro codigo
+
+
+
+
+
+        fusedLocationClient.lastLocation
+                .addOnSuccessListener { location : Location? ->
+
+                    fecha= Calendar.getInstance();
+                     diaSemana=     fecha?.get(Calendar.DAY_OF_WEEK);
+
+                     diano= fecha?.get(Calendar.DAY_OF_YEAR);
+                    var hora=fecha?.get(Calendar.HOUR_OF_DAY);
+                    var minuto=fecha?.get(Calendar.MINUTE);
+
+                    Globales.diaano =diano!!
+                    Globales.registrados =true
+                    miId= Globales.diaano +33868
+
+                    //Probamos guardar en shared preferences
+                    /*
+                    val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return@addOnSuccessListener
+                    with (sharedPref.edit()) {
+                        putInt("diasemana", dia!!)
+
+                        commit()
+                    }
+
+
+
+                    val highScore = sharedPref.getInt("dia",0);*/
+
+                 //   Toast.makeText(applicationContext,"Loca "+location?.latitude+" Longi"+location?.longitude+" alti "+location?.altitude+ " Dia es "+diano
+                    //        ,Toast.LENGTH_LONG).show()
+
+      miLati=location?.latitude
+      miLongi=location?.longitude
+
+
+
+practica= Practica()
+                    practica?.id=""+ diano!! +""+33868
+                    practica?.dia=diano!!
+                    practica?.diaSemana=diaSemana!!
+                    practica?.idProfesor=33868
+                    practica?.lat= miLati
+                    practica?.lon=miLongi
+                    practica?.horario=""+hora+":"+minuto
+                    print("XXXXXXXXXXXXXXXXXXXXXXXX "+practica?.id);
+           Toast.makeText(applicationContext, "Valor horario"+practica?.horario, Toast.LENGTH_SHORT).show();
+
+                }
+    }
+
+
+
 }
 

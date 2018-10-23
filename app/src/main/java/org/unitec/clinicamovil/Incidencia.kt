@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil
 
 class Incidencia {
      var nombre: String? = null

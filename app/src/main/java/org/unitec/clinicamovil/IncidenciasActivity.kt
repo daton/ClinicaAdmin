@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil
 
 
 import android.annotation.SuppressLint
@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat
 
 import android.widget.Button
 import android.widget.Toast
+
 
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices

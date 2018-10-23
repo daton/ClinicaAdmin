@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
@@ -9,7 +9,7 @@ class Academico {
     var paterno:String?=null
     var materno:String?=null
     @JsonIgnoreProperties(ignoreUnknown = true)
-    var proyeccion:Proyeccion?=null
+    var proyeccion: Proyeccion?=null
 
 
 }

@@ -1,4 +1,4 @@
-package clinicamovil.unitec.org.clinicaadmin
+package org.unitec.clinicamovil
 
 import android.content.Intent
 import android.os.AsyncTask
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestTemplate
@@ -60,23 +61,28 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg params: Void?): Void? {
-            var url2 = "https://node74674-env-8686050.whelastic.net/api/academico/" + nip
-            //  var url2="http://192.168.100.12/api/academico/"+33868
 
-            val restTemplate = RestTemplate()
-            restTemplate.messageConverters.add(MappingJackson2HttpMessageConverter())
+            try {
+                var url2 = "https://node74674-env-8686050.whelastic.net/api/academico/" + nip
+                //  var url2="http://192.168.100.12/api/academico/"+33868
+
+                val restTemplate = RestTemplate()
+                restTemplate.messageConverters.add(MappingJackson2HttpMessageConverter())
 
 
-            val maper = ObjectMapper()
-            //  usuarios = maper.readValue(estring, object : TypeReference<ArrayList<Usuario>>() {})
+                val maper = ObjectMapper()
+                //  usuarios = maper.readValue(estring, object : TypeReference<ArrayList<Usuario>>() {})
 
-            val respuesta = restTemplate.getForObject(url2, String::class.java)
-            if (respuesta != null)
-                academico = maper.readValue(respuesta, Academico::class.java)
-            else academico = null
-            print("El rol es" + academico?.rol)
+                val respuesta = restTemplate.getForObject(url2, String::class.java)
+                if (respuesta != null)
+                    academico = maper.readValue(respuesta, Academico::class.java)
+                else academico = null
+                print("El rol es" + academico?.rol)
 
-            println("DESPUES DE REST");
+                println("DESPUES DE REST");
+            }catch (t:Exception){
+                println("Otra cosa paso"+t.localizedMessage);
+            }
             return null
 
         }
